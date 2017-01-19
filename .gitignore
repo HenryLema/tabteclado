@@ -1,0 +1,234 @@
+#include <TimerOne.h>
+#include <LiquidCrystal.h>
+#include <Keypad.h>
+LiquidCrystal lcd (13,12,11,10,9,8);
+int pos;
+int cont=6;
+int cont0 = 0;
+int cont1 = 0;
+int cont2 = 3;
+int cont3 = 6;
+int cont4 = 9;
+int cont5 = 12;
+int cont6 = 15;
+int cont7 = 19;
+int cont8 = 22;
+char letra;
+const byte ROWS = 4; // filas
+const byte COLS = 4; // columnas
+//teclado numerico 
+char hexaKeys[ROWS][COLS] = {
+  {'1', '2', '3',' '},
+  {'4', '5', '6',' '},
+  {'7', '8', '9',' '},
+  {'*', '0', '#',' '}
+  };
+byte rowPins[ROWS] = {3, 2, 1, 0}; //pines conectados al teclado
+byte colPins[COLS] = {7, 6, 5, 4};//pines conectados al teclado
+Keypad customKeypad = Keypad( makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS);//copiamos de la libreria del keypad
+void setup() {
+
+  lcd.begin(16, 2); //  16 columnas 2 filas
+  Timer1.initialize(150000);
+  Timer1.attachInterrupt(espera);
+}
+void loop() {
+char customKey = customKeypad.getKey();
+if (customKey) 
+  {
+      if (customKey == '1')//compara si lo ingresado es iguala 1
+      {
+      lcd.setCursor(pos, 0);//posiciona el cursor 
+      lcd.print('1');// imprime 1
+      cont = 0; //reinicia
+    }
+if (customKey == '2') {//compara si lo ingresado es iguala 2
+      cont1++;// se realia el incremeto en el contador
+      letras(cont1);
+      lcd.setCursor(pos, 0);//pocisiona el cursor
+      lcd.print(letra);//imprime la letra
+      if (cont1 == 3) {//se agrega al keypad
+        cont1 = 0;
+      }
+      cont = 0;//reinicia
+    }
+    if (customKey == '3') {// compara lo ingresado con el 3
+      cont2++;
+      letras(cont2);
+      lcd.setCursor(pos, 0);
+      lcd.print(letra);
+      if (cont2 == 6) {//se le agrega al keypad
+        cont2 = 3;
+      }
+      cont = 0;//reinicio
+    }
+     if (customKey == '4') {// compara
+      cont3++;
+      letras(cont3);
+      lcd.setCursor(pos, 0);//posiciona el cursor
+      lcd.print(letra);
+      if (cont3 == 9) {//agrega al keypad
+        cont3 = 6;
+      }
+      cont = 0;
+    }
+    if (customKey == '5') {
+
+      cont4++;
+      letras(cont4);
+      lcd.setCursor(pos, 0);
+      lcd.print(letra);
+      if (cont4 == 12) {
+        cont4 = 9;
+      }
+      cont = 0;
+    }
+
+    if (customKey == '6') {
+
+      cont5++;
+      letras(cont5);
+      lcd.setCursor(pos, 0);
+      lcd.print(letra);
+      if (cont5 == 15) {
+        cont5 = 12;
+      }
+      cont = 0;
+    }
+
+    if (customKey == '7') {
+      cont6++;
+      letras(cont6);
+      lcd.setCursor(pos, 0);
+      lcd.print(letra);
+      if (cont6 == 19) {
+        cont6 = 15;
+      }
+      cont = 0;
+    }
+
+    if (customKey == '8') {
+      cont7++;
+      letras(cont7);
+      lcd.setCursor(pos, 0);
+      lcd.print(letra);
+      if (cont7 == 22) {
+        cont7 = 19;
+      }
+      cont = 0;
+    }
+
+    if (customKey == '9') {
+      cont8++;
+      letras(cont8);
+      lcd.setCursor(pos, 0);
+      lcd.print(letra);
+      if (cont8 == 26) {
+        cont8 = 22;
+      }
+      cont = 0;
+    }
+    if (customKey == '0') {
+      lcd.setCursor(pos, 0);
+      lcd.print(' ');
+      cont = 0;
+    }
+  }
+}
+char letras(int dato) {
+  switch (dato) {
+    case 1:
+      letra = 'a';
+      break;
+    case 2:
+      letra = 'b';
+      break;
+    case 3:
+      letra = 'c';
+      break;
+    case 4:
+      letra = 'd';
+      break;
+    case 5:
+      letra = 'e';
+      break;
+    case 6:
+      letra = 'f';
+      break;
+    case 7:
+      letra = 'g';
+      break;
+    case 8:
+      letra = 'h';
+      break;
+    case 9:
+      letra = 'i';
+      break;
+    case 10:
+      letra = 'j';
+      break;
+    case 11:
+      letra = 'k';
+      break;
+    case 12:
+      letra = 'l';
+      break;
+    case 13:
+      letra = 'm';
+      break;
+    case 14:
+      letra = 'n';
+      break;
+    case 15:
+      letra = 'o';
+      break;
+    case 16:
+      letra = 'p';
+      break;
+    case 17:
+      letra = 'q';
+      break;
+    case 18:
+      letra = 'r';
+      break;
+    case 19:
+      letra = 's';
+      break;
+    case 20:
+      letra = 't';
+      break;
+    case 21:
+      letra = 'u';
+      break;
+    case 22:
+      letra = 'v';
+      break;
+    case 23:
+      letra = 'w';
+      break;
+    case 24:
+      letra = 'x';
+      break;
+    case 25:
+      letra = 'y';
+      break;
+    case 26:
+      letra = 'z';
+      break;
+  }
+  return letra;
+}
+void espera() {
+  cont++;
+  if (cont == 6) {
+    pos ++;
+    cont1 = 0;
+    cont2 = 3;
+    cont3 = 6;
+    cont4 = 9;
+    cont5 = 12;
+    cont6 = 15;
+    cont7 = 19;
+    cont8 = 22;
+  }
+}
